@@ -35,7 +35,7 @@ router.get('/quizzes/active', async (req, res) => {
         const quizzes = await Quiz.find()
         const activeQuizzes = quizzes.filter((quiz) => quiz.status === 'active')
 
-        res.status(200).json({ fromCache: fromCache, activeQuizzes })
+        res.status(200).json(activeQuizzes)
     } catch (error) {
         console.log("Error occurred while getting active quizzes", error)
         return res.status(500).json({ error: "Internal Error Occurred" })

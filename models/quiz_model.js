@@ -1,25 +1,14 @@
 const mongoose = require('mongoose')
 
-const opts = { toJSON: { virtuals: true } }
 const quizSchema = new mongoose.Schema({
     question: { type: String, required: true },
     options: { type: [String], required: true },
     rightAnswer: { type: Number, required: true },
     startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true }
-}, opts);
+    endDate: { type: Date, required: true },
+    status: { type: String, enum: ['inactive', 'active', 'finished'], default: 'inactive' }
+});
 
-// virtual property for the quiz status
-quizSchema.virtual('status').get(function() {
-    const currentDateTime = new Date()
+const Quiz = mongoose.model("Quiz", quizSchema);
 
-    if (currentDateTime < this.startDate) {
-        return 'inactive'
-    } else if (currentDateTime >= this.startDate && currentDateTime <= this.endDate) {
-        return 'active'
-    } else {
-        return 'finished'
-    }
-})
-
-mongoose.model("Quiz", quizSchema);
+module.exports = Quiz
